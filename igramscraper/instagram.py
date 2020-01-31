@@ -1,3 +1,4 @@
+import sys
 import time
 import requests
 import re
@@ -456,7 +457,7 @@ class Instagram:
         media_ids = []
         has_next_page = True
         while index < count and has_next_page:
-
+          try:
             time.sleep(self.sleep_between_requests)
             response = self.__req.get(
                 endpoints.get_medias_json_by_tag_link(tag, max_id),
@@ -498,7 +499,8 @@ class Instagram:
             has_next_page = \
                 arr['graphql']['hashtag']['edge_hashtag_to_media']['page_info'][
                     'has_next_page']
-
+          except:
+            print(sys.exc_info)
         return medias
 
     def get_medias_by_location_id(self, facebook_location_id, count=24,
